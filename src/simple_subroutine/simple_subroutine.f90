@@ -14,4 +14,9 @@ contains
     allocate(arr(10))
     arr = 12
   end subroutine
+  
+  subroutine returns_arr2(arr)
+    integer, intent(out) :: arr(:)
+    arr = 14
+  end subroutine
 end module
