@@ -1,0 +1,1 @@
+int myfunc_wrapper(int *a);
