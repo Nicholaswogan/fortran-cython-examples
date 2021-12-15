@@ -9,22 +9,35 @@ contains
     integer(c_int), intent(out) :: b
     call mysub(a, b)
   end subroutine
-  
-  subroutine returns_arr1_wrapper(arr_len, arr) bind(c)
+
+  subroutine returns_arr1_wrapper(ptr, arr_len, arr) bind(c)
     use simple_subroutine, only: returns_arr1
+    type(c_ptr), intent(in) :: ptr
     integer(c_int), intent(in) :: arr_len
     integer(c_int), intent(out) :: arr(arr_len)
-    integer(c_int), allocatable, target :: arr_copy(:)
-    call returns_arr1(arr_copy)
-    arr = arr_copy
+    
+    integer(c_int), pointer :: arr_ptr(:)
+    
+    call c_f_pointer(ptr, arr_ptr, [arr_len])
+    
+    arr = arr_ptr
+    deallocate(arr_ptr)
   end subroutine
   
-  subroutine returns_arr1_len_wrapper(arr_len) bind(c)
+  subroutine returns_arr1_len_wrapper(arr_len, ptr) bind(c)
     use simple_subroutine, only: returns_arr1
     integer(c_int), intent(out) :: arr_len
-    integer(c_int), allocatable :: arr(:)
+    type(c_ptr), intent(out) :: ptr
+    
+    integer(c_int), allocatable, target :: arr(:)
+    integer(c_int), pointer :: arr_ptr(:)
+
     call returns_arr1(arr)
     arr_len = size(arr)
+    allocate(arr_ptr(arr_len))
+    arr_ptr = arr
+    ptr = c_loc(arr_ptr)
+    
   end subroutine
   
 end module
