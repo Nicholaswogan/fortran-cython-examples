@@ -20,3 +20,5 @@ def test():
         simple_subroutine.mysub(np.array([1,2,3]))
     except TypeError as e:
         assert str(e) == "only size-1 arrays can be converted to Python scalars"
+        
+    assert np.all(simple_subroutine.returns_arr1() == np.ones(10)*12.0)
