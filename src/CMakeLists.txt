@@ -1,8 +1,10 @@
-set(FORTRAN_MODULES simple_subroutine simple_function module_variable derived_type characters)
+set(FORTRAN_MODULES simple_subroutine simple_function module_variable derived_type characters dtype1)
 
 foreach (F_MODULE ${FORTRAN_MODULES})
   add_subdirectory(${F_MODULE})
 endforeach()
+
+
 
 set(module_name examples)
 

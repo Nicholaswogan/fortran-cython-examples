@@ -28,13 +28,13 @@ contains
   !!! getters and setters !!!
   !!!!!!!!!!!!!!!!!!!!!!!!!!!
   
-  subroutine mytype_set_a(ptr, a) bind(c)
-    use derived_type, only: Mytype
+  subroutine mytype_set_a(ptr, var) bind(c)
+    use derived_type, only: dtype => Mytype
     type(c_ptr), intent(in) :: ptr
-    real(c_double), intent(in) :: a
-    type(Mytype), pointer :: my
-    call c_f_pointer(ptr, my)
-    my%a = a
+    real(c_double), intent(in) :: var
+    type(dtype), pointer :: t
+    call c_f_pointer(ptr, t)
+    t%a = var
   end subroutine
   
   subroutine mytype_get_a(ptr, a) bind(c)
