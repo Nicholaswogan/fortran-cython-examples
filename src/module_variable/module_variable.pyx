@@ -52,10 +52,11 @@ cdef class __module_variable:
       module_variable_pxd.module_variable_get_arr1(<int32_t *>var.data)
       return var
     def __set__(self, ndarray[int32_t, ndim=1] var):
-      cdef int32_t dim1 = var.shape[0]
-      shape = (dim1,)
-      if (8,) != shape:
-        raise ValueError("arr1 must have shape (8,), but got "+str(shape))
+      cdef ndarray d = np.empty((var.ndim,), np.int64)
+      for i in range(var.ndim):
+        d[i] = var.shape[i]
+      if (8,) != tuple(d):
+        raise ValueError("arr1 has wrong shape")
       module_variable_pxd.module_variable_set_arr1(<int32_t *>var.data)
       
   property arr2:
@@ -66,14 +67,16 @@ cdef class __module_variable:
       
   property arr3:
     def __get__(self):
-      cdef int32_t dim1
-      module_variable_pxd.module_variable_get_arr3_size(&dim1)
-      cdef ndarray var = np.empty((dim1,), np.int32)
-      module_variable_pxd.module_variable_get_arr3(&dim1, <int32_t *>var.data)
+      cdef ndarray d = np.empty((1,), np.int64)
+      module_variable_pxd.module_variable_get_arr3_size(<int64_t *> d.data)
+      cdef ndarray var = np.empty(tuple(d), np.int32)
+      module_variable_pxd.module_variable_get_arr3(<int64_t *> d.data, <int32_t *>var.data)
       return var
     def __set__(self, ndarray[int32_t, ndim=1] var):
-      cdef int32_t dim1 = var.shape[0]
-      module_variable_pxd.module_variable_set_arr3(&dim1, <int32_t *>var.data)
+      cdef ndarray d = np.empty((var.ndim,), np.int64)
+      for i in range(var.ndim):
+        d[i] = var.shape[i]
+      module_variable_pxd.module_variable_set_arr3(<int64_t *> d.data, <int32_t *>var.data)
       
   property str1:
     def __get__(self):
@@ -119,6 +122,9 @@ cdef class __module_variable:
       # var1[0] = "{:20}".format("hello")
       # var1[1] = "{:20}".format("nias")
       module_variable_pxd.module_variable_set_str4(&len1, &dim1, <char *> var1.data)
+        
+  def test(self, mytype my):
+    return 2
       
     
       

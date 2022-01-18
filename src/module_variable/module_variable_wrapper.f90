@@ -106,31 +106,31 @@ contains
   ! end subroutine
   
   ! integer, allocatable :: arr3(:)
-  subroutine module_variable_get_arr3_size(dim1) bind(c)
+  subroutine module_variable_get_arr3_size(d) bind(c)
     use module_variable, only: a => arr3
-    integer(c_int32_t), intent(out) :: dim1
+    integer(c_int64_t), intent(out) :: d(1)
     if (allocated(a)) then
-      dim1 = size(a,1)
+      d = shape(a)
     else
-      dim1 = 0
+      d = 0
     endif
   end subroutine
   
-  subroutine module_variable_get_arr3(dim1, var) bind(c)
+  subroutine module_variable_get_arr3(d, var) bind(c)
     use module_variable, only: a => arr3
-    integer(c_int32_t), intent(in) :: dim1
-    integer(c_int32_t), intent(out) :: var(dim1)
+    integer(c_int64_t), intent(in) :: d(1)
+    integer(c_int32_t), intent(out) :: var(d(1))
     if (allocated(a)) then
       var = a
     endif
   end subroutine
   
-  subroutine module_variable_set_arr3(dim1, var) bind(c)
+  subroutine module_variable_set_arr3(d, var) bind(c)
     use module_variable, only: a => arr3
-    integer(c_int32_t), intent(in) :: dim1
-    integer(c_int32_t), intent(in) :: var(dim1)
+    integer(c_int64_t), intent(in) :: d(1)
+    integer(c_int32_t), intent(in) :: var(d(1))
     if (allocated(a)) deallocate(a)
-    allocate(a(dim1))
+    allocate(a(d(1)))
     a = var
   end subroutine
   

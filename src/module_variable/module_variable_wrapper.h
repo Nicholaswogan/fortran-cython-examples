@@ -13,9 +13,9 @@ void module_variable_set_arr1(int32_t *var);
 
 void module_variable_get_arr2(int32_t *var);
 
-void module_variable_get_arr3_size(int32_t *dim1);
-void module_variable_get_arr3(int32_t *dim1, int32_t *var);
-void module_variable_set_arr3(int32_t *dim1, int32_t *var);
+void module_variable_get_arr3_size(int64_t *d);
+void module_variable_get_arr3(int64_t *d, int32_t *var);
+void module_variable_set_arr3(int64_t *d, int32_t *var);
 
 // characters
 
