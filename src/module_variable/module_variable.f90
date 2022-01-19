@@ -14,10 +14,6 @@ module module_variable
   integer, parameter :: arr2(3) = [1,2,3]
   integer, allocatable :: arr3(:)
   
-  type :: mytype
-    integer :: a1
-  end type
-  
   ! characters. Work in progress
   
   character(len=20) :: str1

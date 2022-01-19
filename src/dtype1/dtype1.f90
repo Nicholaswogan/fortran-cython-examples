@@ -1,12 +1,15 @@
 module dtype1
   implicit none
-  private
   
-  public :: mytype
+  type :: myothertype
+    integer :: a1 = 10
+  end type
   
   type :: mytype
     integer :: a1
     integer, allocatable :: arr3(:)
+    type(myothertype) :: my
+    type(myothertype) :: my1(3)
   end type
   
   ! Purpose of this simple type is to consider how to implement

@@ -122,11 +122,7 @@ cdef class __module_variable:
       # var1[0] = "{:20}".format("hello")
       # var1[1] = "{:20}".format("nias")
       module_variable_pxd.module_variable_set_str4(&len1, &dim1, <char *> var1.data)
-        
-  def test(self, mytype my):
-    return 2
       
-    
       
 module_variable = __module_variable()
 
